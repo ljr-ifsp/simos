@@ -37,8 +37,10 @@ int simos_list_empty(simos_list_t *list)
 simos_list_t * simos_list_new()
 {
 	simos_list_t *l = malloc(sizeof(simos_list_t));
+
 	l->head = NULL;
 	l->tail = NULL;
+
 	return l;
 }
 
@@ -74,7 +76,7 @@ void simos_list_add(simos_list_t *list, simos_list_node_t *node)
 }
 
 /**
- * Delete an especific node in the list.
+ * Delete an especific node in the list. Return true of false.
  */
 int simos_list_del(simos_list_t *list, simos_list_node_t *node)
 {
@@ -157,6 +159,9 @@ void simos_list_free(simos_list_t *list)
 		free(n->data);
 		free(n);
 	}
+
+	list->head = NULL;
+	list->tail = NULL;
 }
 
 

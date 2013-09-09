@@ -24,6 +24,7 @@
 #include "simos.h"
 
 
+/** Create a new ready process list. */
 simos_scheduler_t *simos_scheduler_new()
 {
 	simos_scheduler_t *s = malloc(sizeof(simos_scheduler_t));
@@ -33,14 +34,18 @@ simos_scheduler_t *simos_scheduler_new()
 	return s;
 }
 
+/** Add a process in the list (FCFS policy). */
 void simos_process_list_add(simos_list_t *proclist, simos_process_t *proc)
 {
 	simos_list_add(proclist, simos_list_new_node(proc));
 }
 
-static simos_list_node_t *simos_process_list_search(simos_list_t *proclist, int pid)
+/** private function the search a process... */
+static simos_list_node_t *simos_process_list_search(simos_list_t *proclist, 
+		int pid)
 {
 	simos_list_node_t *n;
+	// for each node n in the process list do:
 	SIMOS_LIST_FOREACH(n, proclist) {
 		if (pid == ((simos_process_t *) n->data)->pid) {
 			return n;
@@ -50,6 +55,7 @@ static simos_list_node_t *simos_process_list_search(simos_list_t *proclist, int 
 	return NULL;
 }
 
+/** Delete the process with the refered pid.  Return true or false. */
 int simos_process_list_del(simos_list_t *proclist, int pid)
 {
 	simos_list_node_t *n = simos_process_list_search(proclist, pid);
@@ -61,6 +67,7 @@ int simos_process_list_del(simos_list_t *proclist, int pid)
 	return 0;
 }
 
+/** Get the process with the refered pid. Return simos_process_t*. */
 simos_process_t *simos_process_list_get(simos_list_t *proclist, int pid)
 {
 	simos_list_node_t *p = simos_process_list_search(proclist, pid);

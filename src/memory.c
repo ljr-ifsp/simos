@@ -24,21 +24,31 @@
 #include <malloc.h>
 #include "simos.h" 
 
+/** Create a memory with the refered size. */
 simos_memory_t *simos_memory_create(size_t size)
 {
     
     simos_memory_t *mem = malloc(sizeof(simos_memory_t));
+
     mem->size = size;
-    mem->cells = calloc(size, sizeof(int));
+    mem->cells = calloc(size, sizeof(int)); // set memory to zero...
+
     return mem;
 }
 
+/** Call free (malloc(3)) in the allocated memory. */
 void simos_memory_destroy(simos_memory_t *mem)
 {
     free(mem->cells);
     free(mem);
 }
 
+/**
+ * Try to find a gap in the memory that fits the block size. 
+ *
+ * Return the pointer to the base of the allocated memory. Whether is not 
+ *   possible to allocate, returns -1.
+ */
 size_t simos_memory_alloc(simos_memory_t *mem, size_t block)
 {
     int i = 0, available = 0, pointer;
@@ -71,6 +81,7 @@ size_t simos_memory_alloc(simos_memory_t *mem, size_t block)
     
 }
 
+/** Set memory pointed with refered length to free. */
 void simos_memory_free(simos_memory_t *mem, size_t pointer, size_t length)
 {
     int i;

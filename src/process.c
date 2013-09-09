@@ -23,6 +23,7 @@
 #include <malloc.h>
 #include "simos.h"
 
+/** Create a new process. */
 simos_process_t *simos_process_create(int pid, size_t required_execution_time, 
         size_t required_memory)
 {
@@ -37,11 +38,13 @@ simos_process_t *simos_process_create(int pid, size_t required_execution_time,
 	return proc;
 }
 
+/** Just call free (malloc(3)) in proc. */
 void simos_process_destroy(simos_process_t *proc)
 {
 	free(proc);
 }
 
+/** Type cast in node->data to simos_process_t. */
 simos_process_t *simos_node_to_process(simos_list_node_t *node)
 {
 	return ((simos_process_t *) node->data);

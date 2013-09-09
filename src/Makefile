@@ -13,7 +13,7 @@ all: $(OUT)
 $(OUT): $(OBJECTS) simos
 
 simos:
-	@echo "Generating ../lib/simos.a"
+	@echo "Generating ../lib/libsimos.a"
 	ar rcs $(OUT) $(OBJECTS)
 
 .c.o:

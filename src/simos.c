@@ -26,6 +26,7 @@
 static size_t time = 0;
 
 
+/** Create a new simulation of a system with the memory size as specified. */
 simos_t *simos_new(size_t memory_size)
 {
 	simos_t *s = malloc(sizeof(simos_t));
@@ -36,6 +37,7 @@ simos_t *simos_new(size_t memory_size)
 	return s; 
 }
 
+/** Add a process to the scheduler. */
 int simos_add_process(simos_t *simos, simos_process_t *proc)
 {
 	size_t pointer = simos_memory_alloc(simos->mem, proc->required_memory);
@@ -50,29 +52,33 @@ int simos_add_process(simos_t *simos, simos_process_t *proc)
 	return 1;
 }
 
+/** Execute the simulation... */
 void simos_execute(simos_t *simos)
 {
 	simos_list_node_t *n;
 	simos_process_t *p;
 
-	SIMOS_LIST_FOREACH(n, simos->sched->ready) {
+	// for each node in scheduler's ready list do:
+	SIMOS_LIST_FOREACH(n, simos->sched->ready) { 
 		printf("Current time is: %ld\n", time);
 
 		/* time accounting */
 		p = simos_node_to_process(n);
 		p->entry_time = time;
-		time += p->required_execution_time;
+		time += p->required_execution_time; // NOTE: there is no preemption
 		p->out_time = time;
 
-		simos_memory_free(simos->mem, p->memory_pointer, p->required_memory);
+		simos_memory_free(simos->mem, p->memory_pointer, 
+				p->required_memory);
 
 		printf("Process %d leaving at %ld.\n", p->pid, time);
 	}
 }
 
+/** After execution, the memory must be freed. */
 void simos_free(simos_t *simos)
 {
-	free(simos->mem);
+	simos_memory_destroy(simos->mem);
 	simos_list_free(simos->sched->ready);
 }
 
