@@ -86,9 +86,7 @@ int simos_list_del(simos_list_t *list, simos_list_node_t *node)
 
 	SIMOS_LIST_FOREACH(n, list) {
 		if (n->next == node->next && n->prev == node->prev) {
-			if (list->head == list->tail) {
-				list->head = list->tail = NULL;
-			} else if (n == list->head) {
+			if (n == list->head) {
 				simos_list_del_head(list);
 			} else if (n == list->tail) {
 				simos_list_del_tail(list);
