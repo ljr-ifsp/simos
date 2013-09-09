@@ -16,3 +16,13 @@
 *.out
 *.app
 
+# Vim swap files
+.*.swp
+
+# Examples
+examples/list_manipulation
+examples/proc_test
+examples/simulation
+
+
+
