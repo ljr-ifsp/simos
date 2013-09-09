@@ -28,6 +28,7 @@ Directories in the project are:
 - src/
 
 	Directory containing the codes:
+	
 		* simos.c : basic functions of the simulator. Call these 
 			functions to write a simulator. It has a provisory
 			time variable to take care about the simulation time.
