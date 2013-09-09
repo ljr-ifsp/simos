@@ -32,7 +32,7 @@ Directories in the project are:
 			functions to write a simulator. It has a provisory
 			time variable to take care about the simulation time.
 			It may necessary export time variable, to do so, remove
-			`static' and declare time as `extern' in the simulator.
+			'static' and declare time as `extern' in the simulator.
 
 		* memory.c: create a array of unsigned char representing cells
 			just like in real systems. In it must be implemented
@@ -84,6 +84,7 @@ this project.
 
 
 Long live and prosper.
+
 \\\\//
 
 
