@@ -34,7 +34,7 @@ int simos_list_empty(simos_list_t *list)
 /**
  * Allocate room for a list.
  */
-simos_list_t * simos_list_new()
+simos_list_t *simos_list_new()
 {
 	simos_list_t *l = malloc(sizeof(simos_list_t));
 
