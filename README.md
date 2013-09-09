@@ -30,7 +30,7 @@ Directories in the project are:
 	Directory containing the codes:
 		* simos.c : basic functions of the simulator. Call these 
 			functions to write a simulator. It has a provisory
-			`time' variable to take care about the simulation time.
+			time variable to take care about the simulation time.
 			It may necessary export time variable, to do so, remove
 			`static' and declare time as `extern' in the simulator.
 
@@ -84,6 +84,6 @@ this project.
 
 
 Long live and prosper.
-\\//
+\\\\//
 
 
