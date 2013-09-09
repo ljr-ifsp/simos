@@ -136,7 +136,7 @@ simos_process_t *simos_process_list_get(simos_list_t *proclist, int pid);
 
 typedef struct {
 	size_t size;
-	unsigned int *cells;
+	unsigned char *cells;
 } simos_memory_t;
 
 /** Create a memory with the refered size. */
