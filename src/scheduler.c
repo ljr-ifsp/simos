@@ -35,13 +35,7 @@ simos_scheduler_t *simos_scheduler_new()
 
 void simos_process_list_add(simos_list_t *proclist, simos_process_t *proc)
 {
-	simos_list_node_t *n = malloc(sizeof(simos_list_node_t));
-
-	n->next = NULL;
-	n->prev = NULL;
-	n->data = proc;
-
-	simos_list_add(proclist, n);
+	simos_list_add(proclist, simos_list_new_node(proc));
 }
 
 static simos_list_node_t *simos_process_list_search(simos_list_t *proclist, int pid)

@@ -45,11 +45,9 @@ typedef struct simos_list {
 } simos_list_t;
 
 simos_list_t *simos_list_new();
-
+simos_list_node_t *simos_list_new_node(void *data);
 int simos_list_empty(simos_list_t *list);
-
 void simos_list_add(simos_list_t *list, simos_list_node_t *node);
-
 int simos_list_del(simos_list_t *list, simos_list_node_t *node);
 simos_list_node_t *simos_list_del_head(simos_list_t *list);
 simos_list_node_t *simos_list_del_tail(simos_list_t *list);

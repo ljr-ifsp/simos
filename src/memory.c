@@ -27,7 +27,7 @@
 simos_memory_t *simos_memory_create(size_t size)
 {
     
-    simos_memory_t *mem = (simos_memory_t *) malloc(sizeof(simos_memory_t));
+    simos_memory_t *mem = malloc(sizeof(simos_memory_t));
     mem->size = size;
     mem->cells = calloc(size, sizeof(int));
     return mem;

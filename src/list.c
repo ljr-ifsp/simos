@@ -43,6 +43,20 @@ simos_list_t * simos_list_new()
 }
 
 /**
+ * Create a new list node from data.
+ */
+simos_list_node_t *simos_list_new_node(void *data)
+{
+	simos_list_node_t *n = malloc(sizeof(simos_list_node_t));
+
+	n->next = n->prev = NULL;
+	n->data = data;
+
+	return n;
+}
+
+
+/**
  * Add a node at tail of the queue.
  */
 void simos_list_add(simos_list_t *list, simos_list_node_t *node)
@@ -70,20 +84,15 @@ int simos_list_del(simos_list_t *list, simos_list_node_t *node)
 		return 0;
 	}
 
-	if (list->head == list->tail) {
-		list->head = list->tail = NULL;
-		return 1;
-	}
-
 	SIMOS_LIST_FOREACH(n, list) {
 		if (n->next == node->next && n->prev == node->prev) {
-			if (n == list->tail) {
-				n->prev->next = NULL;
-				list->tail = n->prev;
+			if (list->head == list->tail) {
+				list->head = list->tail = NULL;
 			} else if (n == list->head) {
-				n->next->prev = NULL;
-				list->head = n->next;
-			} else {
+				simos_list_del_head(list);
+			} else if (n == list->tail) {
+				simos_list_del_tail(list);
+			} else { 
 				n->prev->next = n->next;
 				n->next->prev = n->prev;
 			}
