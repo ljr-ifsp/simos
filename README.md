@@ -75,7 +75,7 @@ The code was forked in Sep 7, 2013 by
 
 	Lourenco Alves 
 	Federal Institute of Technology at São Paulo
-	Araraqara, SP - Brazil
+	Araraquara, SP - Brazil
 	(ljr[dot]ifsp gmail)
 	http://ljr.sdf.org
 
