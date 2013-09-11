@@ -79,7 +79,7 @@ The code was forked in Sep 7, 2013 by
 	(ljr[dot]ifsp gmail)
 	http://ljr.sdf.org
 
-This project is intented to help Operating System class by enabling a
+This project is intented to help Operating System classes by enabling a
 simple but sufficient start up for labs like Scheduling policies and 
 Memory management implementations.
 
