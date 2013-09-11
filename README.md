@@ -1,7 +1,7 @@
 simos
 =====
 
-SIMlation of Operating System.
+SIMulation of Operating System.
 
 
 Code organization
