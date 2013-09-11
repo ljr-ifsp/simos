@@ -74,7 +74,7 @@ Author
 The code was forked in Sep 7, 2013 by 
 
 	Lourenco Alves 
-	Federal Institute of Technology at São Paulo
+	Federal Institute of Technology of São Paulo
 	Araraquara, SP - Brazil
 	(ljr[dot]ifsp gmail)
 	http://ljr.sdf.org
