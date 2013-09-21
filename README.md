@@ -11,7 +11,7 @@ To compile use
 
 	make
 
-`simos' is static library code. After compiling it, check
+`simos' is a static library code. After compiling it, check
 
 	lib/libsimos.a
 
