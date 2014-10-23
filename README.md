@@ -71,7 +71,7 @@ Directories in the project are:
 Author
 =====
 
-The code was forked in Sep 7, 2013 by 
+The code was spawned in Sep 7, 2013 by 
 
 	Lourenco Alves 
 	São Paulo's Federal Institute of Technology

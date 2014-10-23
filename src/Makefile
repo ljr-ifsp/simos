@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -c -Wall
+CFLAGS := -c -Wall -Werror
 INCLUDES := -I../include 
 SOURCES := list.c process.c scheduler.c memory.c simos.c
 OBJECTS := $(SOURCES:.c=.o)
