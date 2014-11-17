@@ -38,6 +38,27 @@ simos_process_t *simos_process_create(int pid, size_t required_execution_time,
 	return proc;
 }
 
+simos_process_t *simos_process_create_with_quantum(int pid, size_t required_execution_time, 
+        size_t required_memory, size_t quantum)
+{
+	simos_process_t *proc = NULL;
+	proc = simos_process_create(pid, required_execution_time, required_memory);
+	proc->quantum = quantum;
+
+	return proc;
+}
+
+simos_process_t *simos_process_create_with_priority(int pid, size_t required_execution_time, 
+        size_t required_memory, size_t quantum, size_t priority)
+{
+	simos_process_t *proc = NULL;
+	proc = simos_process_create(pid, required_execution_time, required_memory);
+	proc->quantum = quantum;
+	proc->priority = priority;
+
+	return proc;
+}
+
 /** Just call free (malloc(3)) in proc. */
 void simos_process_destroy(simos_process_t *proc)
 {

@@ -17,6 +17,10 @@ To compile use
 
 for the binary.
 
+Create directory for to put generate files of metrics:
+
+mkdir metrics
+
 Directories in the project are:
 -------------------------------
 
@@ -66,7 +70,9 @@ Directories in the project are:
 	Directory containing examples of use. Check `simulation.c' for a simple
 	FCFS non-preemptive simulation.
 
-
+- metrics/
+	
+	Directory containing files with metrics of scheduler algorithms.
 
 Author
 =====
