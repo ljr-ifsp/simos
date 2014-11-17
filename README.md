@@ -17,9 +17,6 @@ To compile use
 
 for the binary.
 
-Create directory for to put generate files of metrics:
-
-mkdir metrics
 
 Directories in the project are:
 -------------------------------
