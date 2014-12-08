@@ -1,0 +1,52 @@
+
+//////////////////////////////////////////////////////////
+Queue Three, starts ... 
+//////////////////////////////////////////////////////////
+
+Current time is: 0
+Process 1 leaving at 5.
+Current time is: 5
+Process 2 leaving at 10.
+Current time is: 10
+Process 3 leaving at 15.
+Current time is: 15
+Process 1 leaving at 20.
+Current time is: 20
+Process 2 leaving at 25.
+*** Process 2 termined. ***
+Current time is: 25
+Process 3 leaving at 30.
+Current time is: 30
+Process 1 leaving at 35.
+Current time is: 35
+Process 3 leaving at 40.
+Current time is: 40
+Process 1 leaving at 45.
+Current time is: 45
+Process 3 leaving at 50.
+*** Process 3 termined. ***
+Current time is: 50
+Process 1 leaving at 55.
+*** Process 1 termined. ***
+
+//////////////////////////////////////////////////////////
+Queue One, starts ... 
+//////////////////////////////////////////////////////////
+
+Current time is: 0
+Process 1 leaving at 24.
+Current time is: 24
+Process 2 leaving at 30.
+Current time is: 30
+Process 3 leaving at 49.
+
+//////////////////////////////////////////////////////////
+Queue Two, starts ... 
+//////////////////////////////////////////////////////////
+
+Current time is: 0
+Process 3 leaving at 19. Process priority equals 10.
+Current time is: 19
+Process 1 leaving at 43. Process priority equals 8.
+Current time is: 43
+Process 2 leaving at 49. Process priority equals 1.

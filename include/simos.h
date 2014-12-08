@@ -80,6 +80,16 @@ void simos_list_free(simos_list_t *list);
  * process declarations 
  **********************************************************************/
 
+/** pages of process */
+struct page 
+{
+	size_t busy;
+	size_t begin;
+	size_t length_page;
+};
+
+typedef struct page simos_page_t;
+
 /** Process information. */
 typedef struct {
 	/** Process' identifier. */
@@ -96,11 +106,18 @@ typedef struct {
 	size_t entry_time;
 	/** Time at process' tear down. */
 	size_t out_time;
+	/** Quantum RR */
+	size_t quantum;
+	/** priority */
+	size_t priority;
+	/** page */
+	size_t begin_page;
 } simos_process_t;
 
 /** Create a new process. */
-simos_process_t *simos_process_create(int pid, size_t required_execution_time, 
-		size_t required_memory);
+simos_process_t *simos_process_create(int pid, size_t required_execution_time, size_t required_memory);
+simos_process_t *simos_process_create_with_quantum(int pid, size_t required_execution_time, size_t required_memory, size_t quantum);
+simos_process_t *simos_process_create_with_priority(int pid, size_t required_execution_time, size_t required_memory, size_t quantum, size_t priority);
 /** Just call free (malloc(3)) in proc. */
 void simos_process_destroy(simos_process_t *proc);
 /** Type cast in node->data to simos_process_t. */
@@ -113,6 +130,8 @@ simos_process_t *simos_node_to_process(simos_list_node_t *node);
 
 typedef struct {
 	simos_list_t *ready;
+	size_t priority_queue; // execution priority
+	char *queue_name; // identifier of queue
 } simos_scheduler_t;
 
 /** Create a new ready process list. */
@@ -128,7 +147,8 @@ simos_process_t *simos_process_list_get(simos_list_t *proclist, int pid);
     /*-------- New policies must be implemented here... --------*/
     /*==========================================================*/
 
-
+void simos_process_list_sort(simos_list_t *proclist, char *policy);
+void swap(simos_list_node_t *a, simos_list_node_t *b);
 
 /***********************************************************************
  * Memory management functions
@@ -136,6 +156,9 @@ simos_process_t *simos_process_list_get(simos_list_t *proclist, int pid);
 
 typedef struct {
 	size_t size;
+	size_t num_pages;
+	size_t last_page_alloc;
+	simos_page_t *pages;
 	unsigned char *cells;
 } simos_memory_t;
 
@@ -153,7 +176,10 @@ size_t simos_memory_alloc(simos_memory_t *mem, size_t block);
 /** Set memory pointed with refered length to free. */
 void simos_memory_free(simos_memory_t *mem, size_t pointer, size_t length);
 
-
+size_t simos_first_fit(simos_memory_t *mem, size_t block);
+size_t simos_next_fit(simos_memory_t *mem, size_t block);
+size_t simos_best_fit(simos_memory_t *mem, size_t block);
+size_t simos_worst_fit(simos_memory_t *mem, size_t block);
 
 /***********************************************************************
  * simos declarations 
@@ -164,16 +190,29 @@ typedef struct {
 	simos_memory_t *mem;
 } simos_t;
 
+/** multiple queue */
+typedef struct {
+	simos_t *simos;
+	void (*f)(simos_t *simos);
+} simos_mq_t;
+
 /** Create a new simulation of a system with the memory size as specified. */
 simos_t *simos_new(size_t memory_size);
+simos_t *simos_new_with_priority(size_t memory_size, size_t priority, char *queue_name); // used in multiple queue
 /** Add a process to the scheduler. */
 int simos_add_process(simos_t *simos, simos_process_t *proc);
 /** Execute the simulation... */
-void simos_execute(simos_t *simos);
+// void simos_execute(simos_t *simos);
+void simos_execute(void (*f)(simos_t *simos), simos_t *simos);
+void simos_execute_RR(simos_t *simos);
+void simos_execute_RRWP(simos_t *simos);
+void simos_execute_FCFS(simos_t *simos);
+void simos_execute_SJF(simos_t *simos);
+void simos_execute_SRT(simos_t *simos);
+void simos_execute_MQ(simos_mq_t *simos, size_t number_queue);
+
 /** After execution, the memory must be freed. */
 void simos_free(simos_t *simos);
-
-
 
 #ifdef	__cplusplus
 }

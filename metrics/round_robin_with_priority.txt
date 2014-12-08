@@ -1,0 +1,6 @@
+Current time is: 0
+Process 2 leaving at 7. Process priority equals 14.
+Current time is: 7
+Process 1 leaving at 25. Process priority equals 8.
+Current time is: 25
+Process 3 leaving at 60. Process priority equals 2.

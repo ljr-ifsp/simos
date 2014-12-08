@@ -1,0 +1,6 @@
+Current time is: 0
+Process 2 leaving at 1.
+Current time is: 1
+Process 3 leaving at 5.
+Current time is: 5
+Process 1 leaving at 15.

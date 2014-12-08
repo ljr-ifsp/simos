@@ -1,0 +1,13 @@
+Current time is: 0
+Process 2 leaving at 5.
+*** Process 2 termined. ***
+Current time is: 5
+Process 3 leaving at 10.
+Current time is: 10
+Process 1 leaving at 15.
+Current time is: 15
+Process 3 leaving at 20.
+*** Process 3 termined. ***
+Current time is: 20
+Process 1 leaving at 25.
+*** Process 1 termined. ***

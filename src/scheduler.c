@@ -21,6 +21,10 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 #include <malloc.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "simos.h"
 
 
@@ -79,5 +83,60 @@ simos_process_t *simos_process_list_get(simos_list_t *proclist, int pid)
 	return NULL;
 }
 
+/** Sort process */
+void simos_process_list_sort(simos_list_t *proclist, char *policy)
+{
+    int swapped;
+    
+    simos_list_node_t *ptr1;
+    simos_list_node_t *lptr = NULL;
 
+ 	simos_process_t *value_1;
+ 	simos_process_t *value_2;
 
+    do
+    {
+        swapped = 0;
+        ptr1 = proclist->head;
+ 
+        while (ptr1->next != lptr)
+        {
+        	value_1 = simos_node_to_process(ptr1);
+        	value_2 = simos_node_to_process(ptr1->next);
+
+        	if (strcasecmp("sjf", policy) == 0 || strcasecmp("srt", policy) == 0)
+        	{
+        		if (value_1->required_execution_time > value_2->required_execution_time)
+	            {
+	                swap(ptr1, ptr1->next);
+	                swapped = 1;
+	            }
+
+	            ptr1 = ptr1->next;
+
+        	} else if (strcasecmp("rrwp", policy) == 0)
+        	{
+        		if (value_1->priority < value_2->priority)
+	            {
+	                swap(ptr1, ptr1->next);
+	                swapped = 1;
+	            }
+	            
+	            ptr1 = ptr1->next;
+
+        	} else {
+        		fprintf(stderr, "[ERROR]: Policy not found!\n");
+        		exit(EXIT_FAILURE);
+        	}
+        }
+    }
+    while (swapped);
+}
+ 
+/* Function to swap data of two nodes a and b*/
+void swap(simos_list_node_t *a, simos_list_node_t *b)
+{
+    void *temp = a->data;
+    a->data = b->data;
+    b->data = temp;
+}
