@@ -80,6 +80,16 @@ void simos_list_free(simos_list_t *list);
  * process declarations 
  **********************************************************************/
 
+/** pages of process */
+struct page 
+{
+	size_t busy;
+	size_t begin;
+	size_t length_page;
+};
+
+typedef struct page simos_page_t;
+
 /** Process information. */
 typedef struct {
 	/** Process' identifier. */
@@ -100,6 +110,8 @@ typedef struct {
 	size_t quantum;
 	/** priority */
 	size_t priority;
+	/** page */
+	size_t begin_page;
 } simos_process_t;
 
 /** Create a new process. */
@@ -144,6 +156,9 @@ void swap(simos_list_node_t *a, simos_list_node_t *b);
 
 typedef struct {
 	size_t size;
+	size_t num_pages;
+	size_t last_page_alloc;
+	simos_page_t *pages;
 	unsigned char *cells;
 } simos_memory_t;
 
@@ -161,7 +176,10 @@ size_t simos_memory_alloc(simos_memory_t *mem, size_t block);
 /** Set memory pointed with refered length to free. */
 void simos_memory_free(simos_memory_t *mem, size_t pointer, size_t length);
 
-
+size_t simos_first_fit(simos_memory_t *mem, size_t block);
+size_t simos_next_fit(simos_memory_t *mem, size_t block);
+size_t simos_best_fit(simos_memory_t *mem, size_t block);
+size_t simos_worst_fit(simos_memory_t *mem, size_t block);
 
 /***********************************************************************
  * simos declarations 

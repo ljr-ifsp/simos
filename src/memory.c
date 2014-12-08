@@ -24,14 +24,21 @@
 #include <malloc.h>
 #include "simos.h" 
 
+#define NUM_PAGES 20
+
 /** Create a memory with the refered size. */
 simos_memory_t *simos_memory_create(size_t size)
 {
-    
     simos_memory_t *mem = malloc(sizeof(simos_memory_t));
 
     mem->size = size;
     mem->cells = calloc(size, sizeof(unsigned char)); // set memory to zero...
+    mem->num_pages = NUM_PAGES;
+    mem->pages = malloc(sizeof(simos_page_t)*NUM_PAGES);
+
+    int i;
+    for (i = 0; i < NUM_PAGES; i++)
+        mem->pages[i].busy = 0;
 
     return mem;
 }
@@ -42,6 +49,137 @@ void simos_memory_destroy(simos_memory_t *mem)
     free(mem->cells);
     free(mem);
 }
+
+size_t simos_first_fit(simos_memory_t *mem, size_t block)
+{
+    if (mem == NULL)
+        return -1;
+
+    int space, begin_page, i, j;
+
+    for (i=0; i < NUM_PAGES; i++)
+    {
+        if (mem->pages[i].busy == 0)
+        {
+            begin_page = begin_page - 1 == i ? begin_page : i;
+         
+            space += mem->pages[i].length_page;
+            
+            if (space >= block)
+            {
+                for (j = begin_page; j < i; j++)
+                    mem->pages[j].busy = 1;
+
+                return begin_page; 
+            }
+        }
+    }
+    return -1;
+}
+
+size_t simos_next_fit(simos_memory_t *mem, size_t block)
+{
+    if (mem == NULL)
+        return -1;
+
+    int space, begin_page, i, j;
+
+    for (i=mem->last_page_alloc; i < NUM_PAGES; i++)
+    {
+        if (mem->pages[i].busy == 0)
+        {
+            begin_page = begin_page - 1 == i ? begin_page : i;
+
+            space += mem->pages[i].length_page;
+            
+            if (space >= block)
+            {
+                for (j = begin_page; j < i; j++)
+                    mem->pages[j].busy = 1;
+
+                mem->last_page_alloc = begin_page;
+
+                return begin_page; 
+            }
+        }
+    }
+    return -1;
+}
+
+size_t simos_worst_fit(simos_memory_t *mem, size_t block)
+{
+    if (mem == NULL)
+        return -1;
+
+    int space, begin_page, i, j, greater = -1, greater_pos = -1;
+
+    for (i=0; i < NUM_PAGES; i++)
+    {
+        if (mem->pages[i].busy == 0)
+        {
+            begin_page = begin_page - 1 == i ? begin_page : i;
+
+            if ( (begin_page-1) == i )
+            {
+                greater_pos = begin_page;
+                begin_page = i;
+            }
+
+            
+            if (begin_page == i && space > greater)
+            {
+                greater = space;
+            }
+
+            space += mem->pages[i].length_page;
+        }
+    }
+
+    if (greater_pos != -1)
+    {
+        for (j = begin_page; j < i; j++)
+            mem->pages[j].busy = 1;
+
+        mem->last_page_alloc = begin_page;
+
+        return greater_pos; 
+    }
+
+    return -1;
+}
+
+size_t simos_best_fit(simos_memory_t *mem, size_t block)
+{
+    if (mem == NULL)
+        return -1;
+
+    int space, begin_page, i, j;
+
+    for (i=0; i < NUM_PAGES; i++)
+    {
+        if (mem->pages[i].busy == 0)
+        {
+            begin_page = begin_page - 1 == i ? begin_page : i;
+            space += mem->pages[i].length_page;
+            
+            if (space == block)
+            {
+                for (j = begin_page; j < i; j++)
+                    mem->pages[j].busy = 1;
+
+                mem->last_page_alloc = begin_page;
+
+                return begin_page; 
+            }
+        }
+    }
+
+    // if not find the best space, then call first fit
+    simos_first_fit(mem, block);
+
+    return -1;
+}
+
 
 /**
  * Try to find a gap in the memory that fits the block size. 
@@ -81,6 +219,8 @@ size_t simos_memory_alloc(simos_memory_t *mem, size_t block)
     
 }
 
+
+
 /** Set memory pointed with refered length to free. */
 void simos_memory_free(simos_memory_t *mem, size_t pointer, size_t length)
 {
@@ -89,5 +229,4 @@ void simos_memory_free(simos_memory_t *mem, size_t pointer, size_t length)
         mem->cells[i] = 0;
     }
 }
-
 
